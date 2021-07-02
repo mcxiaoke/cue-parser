@@ -1,8 +1,6 @@
 /**
  * Main library
  */
-import * as fs from 'fs';
-import * as chardet from 'chardet';
 import { parseCommand } from './command';
 import { CueSheet, Index, Time } from './cuesheet';
 import { ICueSheet, ITime } from "./types";
@@ -30,42 +28,29 @@ const commandMap: { [command: string]: parserFunction; } = {
  * @param filename Filename path to cue-sheet to be parsed
  * @return CUE-sheet information object
  */
-export function parse(filename: string): ICueSheet {
-  const cuesheet = new CueSheet();
+export function parse(data: string|ArrayBuffer, encoding?: string): ICueSheet {
+    const cuesheet = new CueSheet();
 
-  if (!filename) {
-    console.log('no file name specified for parse');
-    return;
-  }
-
-  if (!fs.existsSync(filename)) {
-    throw new Error('file ' + filename + ' does not exist');
-  }
-
-  cuesheet.encoding = chardet.detect(fs.readFileSync(filename));
-  let encoding: BufferEncoding = 'utf8';
-
-  if (cuesheet.encoding.startsWith('ISO-8859-')) {
-    encoding = 'binary';
-  } else if (cuesheet.encoding.toUpperCase() === 'UTF-16 LE') {
-    encoding = 'utf16le';
-  }
-
-  const lines = (fs.readFileSync(filename, {encoding, flag: 'r'}) as any)
-    .replace(/\r\n/, '\n').split('\n');
-
-  lines.forEach(line => {
-    if (!line.match(/^\s*$/)) {
-      const lineParser = parseCommand(line);
-      commandMap[lineParser.command](lineParser.params, cuesheet);
+    let strdata: string|undefined;
+    if (typeof data === "string") {
+        strdata = data;
+    } else {
+        strdata = (new TextDecoder(encoding)).decode(data);
     }
-  });
 
-  if (!cuesheet.files[cuesheet.files.length - 1].name) {
-    cuesheet.files.pop();
-  }
+    const lines = strdata.replace(/\r\n/, '\n').split('\n');
+    lines.forEach(line => {
+        if (!line.match(/^\s*$/)) {
+            const lineParser = parseCommand(line);
+            commandMap[lineParser.command](lineParser.params, cuesheet);
+        }
+    });
 
-  return cuesheet;
+    if (!cuesheet.files[cuesheet.files.length - 1].name) {
+        cuesheet.files.pop();
+    }
+
+    return cuesheet;
 }
 
 function parseCatalog(params: string[], cuesheet: CueSheet) {
