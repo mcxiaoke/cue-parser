@@ -7,6 +7,17 @@ import { ICueSheet, ITime } from "./types";
 
 type parserFunction = (params: string[], cuesheet: CueSheet) => void;
 
+type TypedArray =
+    | Int8Array
+    | Uint8Array
+    | Uint8ClampedArray
+    | Int16Array
+    | Uint16Array
+    | Int32Array
+    | Uint32Array
+    | Float32Array
+    | Float64Array;
+
 const commandMap: { [command: string]: parserFunction; } = {
   CATALOG: parseCatalog,
   CDTEXTFILE: parseCdTextFile,
@@ -28,7 +39,7 @@ const commandMap: { [command: string]: parserFunction; } = {
  * @param filename Filename path to cue-sheet to be parsed
  * @return CUE-sheet information object
  */
-export function parse(data: string|ArrayBuffer, encoding?: string): ICueSheet {
+export function parse(data: string|ArrayBuffer|TypedArray, encoding?: string): ICueSheet {
     const cuesheet = new CueSheet();
 
     let strdata: string|undefined;
