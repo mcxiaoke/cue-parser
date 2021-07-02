@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const expect = require('expect.js');
 const parser = require('../lib/cue');
 
@@ -10,7 +11,8 @@ describe('cue-parser', function () {
   describe('it should parse windows files with', () => {
 
     it('should skip newlines', function () {
-      sheet = parser.parse(path.join(cueDir, '/sample-win.cue'));
+      const data = fs.readFileSync(path.join(cueDir, '/sample-win.cue'));
+      sheet = parser.parse(data, "utf-8");
 
       expect(sheet.catalog).to.be('3898347789120');
 
@@ -31,7 +33,8 @@ describe('cue-parser', function () {
 
   describe('it should parse linux files with', () => {
     beforeEach(() => {
-      sheet = parser.parse(path.join(cueDir, '/sample.cue'));
+      const data = fs.readFileSync(path.join(cueDir, '/sample.cue'));
+      sheet = parser.parse(data, "utf-8");
     });
 
     it('should parse CATALOG', () => {
@@ -156,14 +159,16 @@ describe('cue-parser', function () {
   describe('it should parse EAC generated CUE files', function () {
 
     it('parse: Frank Boeijen - Palermo - CD1.eac.cue', function () {
-      sheet = parser.parse(path.join(cueDir, 'Frank Boeijen - Palermo - CD1.eac.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Frank Boeijen - Palermo - CD1.eac.cue'));
+      sheet = parser.parse(data, "utf-8");
       expect(sheet.performer).to.be('Frank Boeijen');
       expect(sheet.title).to.be('Palermo');
       expect(sheet.files.length).to.be(10);
     });
 
     it('parse: Frank Boeijen Groep - Welkom In Utopia', function () {
-      sheet = parser.parse(path.join(cueDir, 'Frank Boeijen Groep - Welkom In Utopia.eac.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Frank Boeijen Groep - Welkom In Utopia.eac.cue'));
+      sheet = parser.parse(data, "utf-8");
       expect(sheet.performer).to.be('Frank Boeijen Groep');
       expect(sheet.title).to.be('Welkom In Utopia');
       expect(sheet.files.length).to.be(11);
@@ -173,7 +178,8 @@ describe('cue-parser', function () {
   describe('it should parse XLD generated CUE files', function () {
 
     it('parse: Putumayo Presents - Yoga Lounge', function () {
-      sheet = parser.parse(path.join(cueDir, 'Putumayo Presents - Yoga Lounge.xld.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Putumayo Presents - Yoga Lounge.xld.cue'));
+      sheet = parser.parse(data, "utf-8");
       expect(sheet.files.length).to.be(12);
 
       const file_track_1 = sheet.files[0];
@@ -186,9 +192,10 @@ describe('cue-parser', function () {
   describe('Support text encoding', function () {
 
     it('should be able to decode "UTF-8"', function () {
-      sheet = parser.parse(path.join(cueDir, 'Putumayo Presents Café Del Mundo.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Putumayo Presents Café Del Mundo.cue'));
+      sheet = parser.parse(data, "utf-8");
 
-      expect(sheet.encoding).to.be('UTF-8');
+      expect(sheet.encoding).to.be('utf-8');
 
       const file_track_7 = sheet.files[6];
       expect(file_track_7.tracks.length).to.be(1);
@@ -197,9 +204,10 @@ describe('cue-parser', function () {
     });
 
     it('should be able to decode "ISO-8859-1"', function () {
-      sheet = parser.parse(path.join(cueDir, 'Paco de Lucía - Fuente y Caudal.eac.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Paco de Lucía - Fuente y Caudal.eac.cue'));
+      sheet = parser.parse(data, "iso-8859-1");
 
-      expect(sheet.encoding).to.be('ISO-8859-1');
+      expect(sheet.encoding).to.be('windows-1252');
 
       expect(sheet.files.length).to.be(8);
 
@@ -215,9 +223,10 @@ describe('cue-parser', function () {
   describe('issue #22', function () {
 
     it('Michael Kiwanuka - Love And Hate"', () => {
-      sheet = parser.parse(path.join(cueDir, 'Michael Kiwanuka - Love And Hate.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Michael Kiwanuka - Love And Hate.cue'));
+      sheet = parser.parse(data, "iso-8859-1");
 
-      expect(sheet.encoding).to.be('ISO-8859-1');
+      expect(sheet.encoding).to.be('windows-1252');
       expect(sheet.performer).to.be('Michael Kiwanuka');
       expect(sheet.title).to.be('Love And Hate');
       expect(sheet.files.length).to.be(1);
@@ -226,9 +235,10 @@ describe('cue-parser', function () {
     });
 
     it('Schiller - Day and Night.cue', () => {
-      sheet = parser.parse(path.join(cueDir, 'Schiller - Day and Night.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Schiller - Day and Night.cue'));
+      sheet = parser.parse(data, "iso-8859-1");
 
-      expect(sheet.encoding).to.be('ISO-8859-1');
+      expect(sheet.encoding).to.be('windows-1252');
       expect(sheet.performer).to.be('Schiller');
       expect(sheet.title).to.be('Day and Night');
 
@@ -238,9 +248,10 @@ describe('cue-parser', function () {
     });
 
     it('Schiller - Zeitreise - Das Beste Von Schiller 1.cue', () => {
-      sheet = parser.parse(path.join(cueDir, 'Schiller - Zeitreise - Das Beste Von Schiller 1.cue'));
+      const data = fs.readFileSync(path.join(cueDir, 'Schiller - Zeitreise - Das Beste Von Schiller 1.cue'));
+      sheet = parser.parse(data, "iso-8859-1");
 
-      expect(sheet.encoding).to.be('ISO-8859-1');
+      expect(sheet.encoding).to.be('windows-1252');
       expect(sheet.performer).to.be('Schiller');
       expect(sheet.title).to.be('Zeitreise - Das Beste Von Schiller');
 

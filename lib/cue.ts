@@ -47,7 +47,9 @@ export function parse(data: string|ArrayBuffer|TypedArray, encoding?: string): I
     if (typeof data === "string") {
         strdata = data;
     } else {
-        strdata = (new TextDecoder(encoding)).decode(data);
+        const decoder = new TextDecoder(encoding);
+        strdata = decoder.decode(data);
+        cuesheet.encoding = decoder.encoding;
     }
 
     const lines = strdata.replace(/\r\n/, '\n').split('\n');
