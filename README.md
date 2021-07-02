@@ -1,5 +1,7 @@
 About
 =======
+code based off of [justlaputa/cue-parser](https://github.com/justlaputa/cue-parser), modifications made to make this run outside of node
+
 cue-parser is a cue-sheet parser library written for nodejs.
 
 Most of the code is inspired by [cue-go](https://github.com/vchimishuk/cue-go)
@@ -16,21 +18,21 @@ How to use
 Add cue-parser as a dependency to your project using npm:
 
 ```shell
-npm install cue-parser
+npm install @jhanssen/cue-parser
 ```
 
 or yarn:
 
 ```shell
-yarn add cue-parser
+yarn add @jhanssen/cue-parser
 ```
 
 Use it in your node source code
 
 ```javascript
-const parser = require('cue-parser');
+const parser = require('@jhanssen/cue-parser');
 
-const cuesheet = parser.parse('filename.cue');
+const cuesheet = parser.parse(data, encoding);
 
 console.log(cuesheet.performer);
 console.log(cuesheet.files);
