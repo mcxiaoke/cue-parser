@@ -36,7 +36,8 @@ const commandMap: { [command: string]: parserFunction; } = {
 
 /**
  * Parse function
- * @param filename Filename path to cue-sheet to be parsed
+ * @param data Cue file data, either in string or ArrayBuffer format
+ * @param encoding Encoding of data if passed as an ArrayBuffer or TypedArray type
  * @return CUE-sheet information object
  */
 export function parse(data: string|ArrayBuffer|TypedArray, encoding?: string): ICueSheet {
