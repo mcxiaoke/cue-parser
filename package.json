@@ -1,10 +1,10 @@
 {
-  "name": "@jhanssen/cue-parser",
+  "name": "better-cue-parser",
   "preferGlobal": false,
   "version": "0.3.0",
   "author": {
-    "name": "Xiao Han",
-    "homepage": "https://github.com/justlaputa"
+    "name": "Zhang Xiaoke",
+    "homepage": "https://github.com/mcxiaoke"
   },
   "contributors": [
     {
@@ -14,16 +14,32 @@
     {
       "name": "Xiao Han",
       "homepage": "https://github.com/justlaputa"
+    },
+    {
+      "name": "Zhang Xiaoke",
+      "homepage": "https://github.com/mcxiaoke"
     }
   ],
-  "description": "A simple js library to parse cue sheet",
+  "description": "A simple but better js library to parse cue sheet",
   "keywords": [
     "cue",
     "sheet",
     "cue-sheet",
     "parser",
     "eac",
-    "xld"
+    "xld",
+    "aac",
+    "mp3",
+    "m4a",
+    "ape",
+    "flac",
+    "wav",
+    "audio",
+    "split",
+    "convert",
+    "ffmpeg",
+    "exif",
+    "id3"
   ],
   "scripts": {
     "test": "mocha test/test.js",
@@ -35,7 +51,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jhanssen/cue-parser.git"
+    "url": "git+https://github.com/mcxiaoke/cue-parser.git"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
